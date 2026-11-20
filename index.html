@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+  <meta name="theme-color" content="#121110" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="LUXORA" />
+  <meta name="description" content="Tienda Oficial LUXORA — Perfumes 100% Originales de las mejores marcas y Ropa Exclusiva. Arma tu pedido en línea y recíbelo por WhatsApp." />
+  <title>LUXORA · Tienda de Perfumes Originales &amp; Moda</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- ===== BARRA DE AVISO SUPERIOR ===== -->
+  <div class="topbar">
+    <div class="topbar__inner">
+      <span class="topbar__item" id="topAnnouncement">
+        Perfumes 100% Originales &middot; Ropa Formal &amp; Streetwear &middot; Pide directo por WhatsApp
+      </span>
+      <div class="topbar__links">
+        <a href="Luxora_Perfumes_Catalogo_Completo.pdf" target="_blank" rel="noopener" class="topbar__link">
+          Ver Catálogo PDF &nearr;
+        </a>
+        <button type="button" class="topbar__install" id="installPwaBtn" hidden>
+          &#11015; Instalar App
+        </button>
+        <a href="admin.html" class="topbar__admin-link" title="Abrir Panel de Administrador">
+          Panel Admin
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HEADER COMERCIAL DE TIENDA (PC & MOBILE PWA) ===== -->
+  <header class="header" id="header">
+    <div class="header__inner">
+      <!-- Logo de la Tienda -->
+      <a href="#" class="brand-logo" aria-label="Tienda Luxora — Inicio">
+        <svg class="brand-logo__crest" viewBox="0 0 64 28" aria-hidden="true">
+          <path d="M6 24h52l-3.5-16-11.5 9.5L32 3 21 17.5 9.5 8z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+          <line x1="6" y1="27" x2="58" y2="27" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+        <div>
+          <span class="brand-logo__name" id="storeNameEl">LUXORA</span>
+          <span class="brand-logo__sub">PERFUMES &amp; MODA</span>
+        </div>
+      </a>
+
+      <!-- Selector Principal de Departamento -->
+      <div class="dept-tabs" id="headerDeptSwitcher" role="tablist" aria-label="Departamentos de la tienda">
+        <button type="button" class="dept-tab is-active" data-dept="perfumes">
+          <span>Perfumes</span>
+          <span class="dept-tab__badge" id="navPerfumeCount">95</span>
+        </button>
+        <button type="button" class="dept-tab" data-dept="apparel">
+          <span>Ropa &amp; Calzado</span>
+          <span class="dept-tab__badge" id="navApparelCount">12</span>
+        </button>
+      </div>
+
+      <!-- Buscador Integrado en Header (Estilo E-Commerce Moderno) -->
+      <div class="header__search">
+        <svg class="header__search-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M20 20l-4.2-4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <input
+          type="search"
+          id="search"
+          placeholder="Buscar perfume, marca, aroma o prenda (ej. Dior, Vainilla, Creed)…"
+          autocomplete="off"
+          aria-label="Buscar producto en la tienda"
+        />
+        <button type="button" class="header__search-clear" id="clearSearch" hidden aria-label="Limpiar búsqueda">&times;</button>
+      </div>
+
+      <!-- Acciones de Compra -->
+      <div class="header__actions">
+        <a class="header__wa-help" id="headerWa" target="_blank" rel="noopener" title="Hablar con un vendedor por WhatsApp">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span class="header__wa-text">Atención WhatsApp</span>
+        </a>
+
+        <button type="button" class="header__bag-btn" id="openTrayBtn" aria-label="Abrir mi bolsa de pedido">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 7h12l1 13H5L6 7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M9 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          </svg>
+          <span class="header__bag-label">Mi Bolsa</span>
+          <span class="bag-count" id="trayCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== BANNER PRINCIPAL DE TIENDA (HERO COMERCIAL Y DIRECTO) ===== -->
+  <section class="hero" id="inicio">
+    <div class="container hero__grid">
+      <div class="hero__content">
+        <div class="hero__trust-badges">
+          <span class="trust-pill">&#10003; 100% Originales</span>
+          <span class="trust-pill">&#10003; Atención Directa</span>
+          <span class="trust-pill">&#10003; Envíos Seguros</span>
+        </div>
+
+        <h1 class="hero__title" id="heroTitle">
+          Tus perfumes favoritos y moda exclusiva,<br />
+          <em>directo a tu WhatsApp.</em>
+        </h1>
+
+        <p class="hero__lead" id="heroLead">
+          Explora más de <strong>95 perfumes originales</strong> de las mejores marcas del mundo (<em>Dior, Chanel, YSL, Creed, Parfums de Marly, Valentino, Tom Ford, Jean Paul Gaultier</em> y más), además de nuestra línea de <strong>Ropa Formal y Streetwear</strong>.
+        </p>
+
+        <!-- Cómo comprar en 3 pasos sencillos -->
+        <div class="how-to-buy" aria-label="Cómo hacer tu pedido">
+          <div class="how-step">
+            <span class="how-step__num">1</span>
+            <div>
+              <strong>Elige tus productos</strong>
+              <span>Busca por marca, tipo de aroma o categoría de ropa.</span>
+            </div>
+          </div>
+          <div class="how-step">
+            <span class="how-step__num">2</span>
+            <div>
+              <strong>Agrégalos a tu Bolsa</strong>
+              <span>Guarda uno o varios productos para pedirlos juntos.</span>
+            </div>
+          </div>
+          <div class="how-step">
+            <span class="how-step__num">3</span>
+            <div>
+              <strong>Pide por WhatsApp</strong>
+              <span>Envía tu lista en 1 clic y te confirmamos precio y entrega.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__cta-row">
+          <a href="#catalogo" class="btn btn--primary" id="heroPrimaryCta">
+            Ver Catálogo de Productos &darr;
+          </a>
+          <button type="button" class="btn btn--outline" data-dept-trigger="apparel" id="heroSwitchDeptBtn">
+            Ver Ropa &amp; Calzado &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Vitrinas de Más Vendidos en el Hero -->
+      <div class="hero__showcase" aria-label="Productos más vendidos">
+        <div class="showcase-header">
+          <span class="showcase-header__label" id="showcaseLabel">&#9733; LOS MÁS PEDIDOS POR NUESTROS CLIENTES</span>
+          <span class="showcase-header__hint">Toca cualquier producto para ver su descripción</span>
+        </div>
+        <div class="showcase-grid" id="heroShowcase"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PASO 1: CATEGORÍAS RÁPIDAS (¿QUÉ ESTÁS BUSCANDO?) ===== -->
+  <section class="categories-section" id="familias">
+    <div class="container">
+      <!-- Categorías de Perfumes -->
+      <div id="perfumeCompass">
+        <div class="section-head">
+          <div>
+            <p class="section-eyebrow">ENCUENTRA TU PERFUME IDEAL</p>
+            <h2 class="section-title">¿Qué tipo de <em>aroma</em> te gusta?</h2>
+          </div>
+          <p class="section-desc">
+            Toca una categoría para filtrar los perfumes según su estilo y ocasión de uso.
+          </p>
+        </div>
+
+        <div class="category-grid" id="familyGrid" role="tablist" aria-label="Filtrar por tipo de aroma">
+          <button type="button" class="cat-card is-active" data-cat="all">
+            <span class="cat-card__badge">Ver Todos</span>
+            <h3 class="cat-card__title">Todos los Perfumes</h3>
+            <p class="cat-card__desc">Catálogo completo de todas las marcas</p>
+            <span class="cat-card__count" data-cat-count="all"></span>
+          </button>
+
+          <button type="button" class="cat-card" data-cat="gourmand">
+            <span class="cat-card__badge">Muy Halagados</span>
+            <h3 class="cat-card__title">Dulces y Vainilla</h3>
+            <p class="cat-card__desc">Vainilla, caramelo, miel, cacao y coñac. Ideales para noche y citas.</p>
+            <span class="cat-card__examples">Ej: Le Male Elixir, Stronger With You, La Vie Est Belle</span>
+            <span class="cat-card__count" data-cat-count="gourmand"></span>
+          </button>
+
+          <button type="button" class="cat-card" data-cat="fresh">
+            <span class="cat-card__badge">Uso Diario y Calor</span>
+            <h3 class="cat-card__title">Frescos y Cítricos</h3>
+            <p class="cat-card__desc">Aromas limpios, marinos y cítricos. Perfectos para el día, calor u oficina.</p>
+            <span class="cat-card__examples">Ej: Sauvage, Acqua di Giò, Y Men, Light Blue, Eros</span>
+            <span class="cat-card__count" data-cat-count="fresh"></span>
+          </button>
+
+          <button type="button" class="cat-card" data-cat="woody">
+            <span class="cat-card__badge">Elegantes</span>
+            <h3 class="cat-card__title">Maderas y Cuero</h3>
+            <p class="cat-card__desc">Sándalo, cedro, oud y cuero. Aromas con mucha personalidad y porte.</p>
+            <span class="cat-card__examples">Ej: Bleu de Chanel, Aventus, Santal 33, Oud Wood</span>
+            <span class="cat-card__count" data-cat-count="woody"></span>
+          </button>
+
+          <button type="button" class="cat-card" data-cat="floral">
+            <span class="cat-card__badge">Femeninos y Finos</span>
+            <h3 class="cat-card__title">Florales y Frutales</h3>
+            <p class="cat-card__desc">Rosa, jazmín, peonía y frutos rojos. Frescos, delicados y duraderos.</p>
+            <span class="cat-card__examples">Ej: Libre, Miss Dior, Delina, Paradoxe, Good Girl Blush</span>
+            <span class="cat-card__count" data-cat-count="floral"></span>
+          </button>
+
+          <button type="button" class="cat-card" data-cat="amber">
+            <span class="cat-card__badge">Larga Duración</span>
+            <h3 class="cat-card__title">Ámbar e Intensos</h3>
+            <p class="cat-card__desc">Azafrán, ámbar, tabaco y especias. Gran proyección que deja huella.</p>
+            <span class="cat-card__examples">Ej: Baccarat Rouge 540, Layton, 1 Million, Tobacco Vanille</span>
+            <span class="cat-card__count" data-cat-count="amber"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Categorías de Ropa -->
+      <div id="apparelCompass" hidden>
+        <div class="section-head">
+          <div>
+            <p class="section-eyebrow">DEPARTAMENTO DE MODA</p>
+            <h2 class="section-title">¿Qué tipo de <em>prenda</em> buscas?</h2>
+          </div>
+          <p class="section-desc">
+            Elige una categoría, abre la prenda que te guste y selecciona tu <strong>talla y color</strong> antes de agregarla a tu bolsa.
+          </p>
+        </div>
+
+        <div class="category-grid" id="apparelCatGrid" role="tablist" aria-label="Filtrar por tipo de prenda">
+          <button type="button" class="cat-card is-active" data-subcat="all">
+            <span class="cat-card__badge">Ver Todo</span>
+            <h3 class="cat-card__title">Toda la Ropa</h3>
+            <p class="cat-card__desc">Ropa formal, casual y urbana</p>
+            <span class="cat-card__count" data-subcat-count="all"></span>
+          </button>
+
+          <button type="button" class="cat-card" data-subcat="camisas">
+            <span class="cat-card__badge">Formal / Casual</span>
+            <h3 class="cat-card__title">Camisas y Lino</h3>
+            <p class="cat-card__desc">Camisas Oxford de algodón y guayaberas de lino fresco.</p>
+            <span class="cat-card__count" data-subcat-count="camisas"></span>
+          </button>
+
+          <button type="button" class="cat-card" data-subcat="sacos">
+            <span class="cat-card__badge">Sastrería</span>
+            <h3 class="cat-card__title">Sacos y Blazers</h3>
+            <p class="cat-card__desc">Blazers estructurados para eventos, oficina o salidas.</p>
+            <span class="cat-card__count" data-subcat-count="sacos"></span>
+          </button>
+
+          <button type="button" class="cat-card" data-subcat="playeras">
+            <span class="cat-card__badge">Streetwear</span>
+            <h3 class="cat-card__title">Playeras y Hoodies</h3>
+            <p class="cat-card__desc">Playeras oversize de algodón pesado y sudaderas con capucha.</p>
+            <span class="cat-card__count" data-subcat-count="playeras"></span>
+          </button>
+
+          <button type="button" class="cat-card" data-subcat="pantalones">
+            <span class="cat-card__badge">Inferiores y Vestidos</span>
+            <h3 class="cat-card__title">Pantalones y Vestidos</h3>
+            <p class="cat-card__desc">Pantalón de vestir, cargo urbano y vestidos de noche.</p>
+            <span class="cat-card__count" data-subcat-count="pantalones"></span>
+          </button>
+
+          <button type="button" class="cat-card" data-subcat="sneakers">
+            <span class="cat-card__badge">Calzado y Extras</span>
+            <h3 class="cat-card__title">Tenis y Gorras</h3>
+            <p class="cat-card__desc">Sneakers de piel y gorras estructuradas.</p>
+            <span class="cat-card__count" data-subcat-count="sneakers"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PASO 2: FILTROS DE TIENDA Y CATÁLOGO DE PRODUCTOS ===== -->
+  <section class="catalog-section" id="catalogo">
+    <div class="controls-bar" id="controlsBar">
+      <div class="container controls-bar__inner">
+        <!-- Filtro Para Quién (Género) -->
+        <div class="filter-block">
+          <span class="filter-block__label">Para quién:</span>
+          <div class="filter-group" id="genderChips" role="tablist">
+            <button type="button" class="filter-pill is-active" data-g="all">Todos</button>
+            <button type="button" class="filter-pill" data-g="h">Hombre</button>
+            <button type="button" class="filter-pill" data-g="m">Mujer</button>
+            <button type="button" class="filter-pill" data-g="u">Unisex</button>
+          </div>
+        </div>
+
+        <!-- Filtro de Gama / Estilo -->
+        <div class="filter-block">
+          <span class="filter-block__label" id="tierGroupLabel">Gama:</span>
+          <div class="filter-group" id="tierChips" role="tablist">
+            <button type="button" class="filter-pill is-active" data-tier="all">Todas</button>
+            <button type="button" class="filter-pill" data-tier="niche">Perfumes Nicho</button>
+            <button type="button" class="filter-pill" data-tier="designer">Diseñador</button>
+          </div>
+        </div>
+
+        <!-- Ordenar y Vista -->
+        <div class="view-tools">
+          <label class="sort-select-wrap" aria-label="Ordenar productos">
+            <select id="sortSelect" class="sort-select">
+              <option value="curated">Ordenar: Destacados</option>
+              <option value="bestsellers">Más Vendidos primero</option>
+              <option value="brand">Por Marca (A–Z)</option>
+              <option value="name">Por Nombre (A–Z)</option>
+              <option value="price_asc">Precio: Menor a Mayor</option>
+              <option value="price_desc">Precio: Mayor a Menor</option>
+            </select>
+          </label>
+
+          <div class="view-toggle" role="group" aria-label="Cambiar vista">
+            <button type="button" class="view-btn is-active" id="viewGridBtn" data-view="grid" title="Ver todos en cuadrícula">
+              <span>Cuadrícula</span>
+            </button>
+            <button type="button" class="view-btn" id="viewMaisonBtn" data-view="maison" title="Ver agrupados por Marca">
+              <span>Por Marca</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Marcas (o Tallas en Ropa) -->
+      <div class="maison-bar" id="casas">
+        <div class="container">
+          <div class="brands-rail" id="brandChips" role="tablist" aria-label="Filtrar por marca o talla"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Barra de estado de resultados -->
+      <div class="catalog-status">
+        <div class="catalog-status__left">
+          <p class="catalog__count" id="count"></p>
+          <div class="active-filters" id="activeFilters"></div>
+        </div>
+        <button type="button" class="reset-filters-btn" id="resetFiltersBtn" hidden>
+          Quitar todos los filtros &times;
+        </button>
+      </div>
+
+      <!-- Cuadrícula principal de productos -->
+      <main id="catalogMain">
+        <div class="grid" id="grid"></div>
+      </main>
+
+      <!-- Si no hay coincidencias -->
+      <div class="empty-state" id="empty" hidden>
+        <p class="empty-state__eyebrow">NO ENCONTRAMOS COINCIDENCIAS</p>
+        <h3 class="empty-state__title">No hay productos con ese filtro o búsqueda.</h3>
+        <p class="empty-state__text">
+          Intenta borrar los filtros o pregúntanos directo por WhatsApp; manejamos más modelos sobre pedido.
+        </p>
+        <div class="empty-state__actions">
+          <button type="button" class="btn btn--primary" id="emptyResetBtn">Ver Todos los Productos</button>
+          <a class="btn btn--outline" id="emptyWaBtn" target="_blank" rel="noopener">Preguntar por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECCIÓN DE CONFIANZA Y ATENCIÓN AL CLIENTE ===== -->
+  <section class="concierge-section" id="proceso">
+    <div class="container">
+      <div class="concierge-panel">
+        <div class="concierge-panel__content">
+          <p class="section-eyebrow">ATENCIÓN PERSONALIZADA AL CLIENTE</p>
+          <h2 class="concierge-panel__title">
+            ¿No sabes qué perfume elegir o buscas un regalo?
+          </h2>
+          <p class="concierge-panel__text">
+            Escríbenos por WhatsApp y te recomendamos opciones según tus gustos (dulces, frescos, elegantes, para diario o para fiesta) y tu presupuesto. También puedes agregar varios productos a <strong>Mi Bolsa</strong> para cotizarlos todos juntos.
+          </p>
+          <div class="concierge-panel__actions">
+            <a class="btn btn--wa-solid" id="conciergeWaBtn" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-wa"/></svg>
+              <span>Pedir Recomendación por WhatsApp</span>
+            </a>
+            <a href="Luxora_Perfumes_Catalogo_Completo.pdf" target="_blank" rel="noopener" class="btn btn--outline">
+              Descargar Catálogo en PDF
+            </a>
+          </div>
+        </div>
+
+        <div class="concierge-panel__features">
+          <div class="feature-item">
+            <span class="feature-item__num">01</span>
+            <div>
+              <h3>Perfumes 100% Originales</h3>
+              <p>Las 24 marcas más buscadas: Dior, Chanel, YSL, Creed, Parfums de Marly, Tom Ford, Valentino, Armani, Jean Paul Gaultier, Versace, Paco Rabanne y más.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item__num">02</span>
+            <div>
+              <h3>Bolsa de Pedido Inteligente</h3>
+              <p>Agrega todos los perfumes y prendas de ropa (con tu talla y color) que te gusten y envíalos en un solo mensaje de WhatsApp.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item__num">03</span>
+            <div>
+              <h3>Compra Rápida sin Registro</h3>
+              <p>Sin crear cuentas ni llenar formularios complicados. Te confirmamos existencias, precios y envío de inmediato.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER DE LA TIENDA ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand-col">
+        <svg class="brand-logo__crest" viewBox="0 0 64 28" aria-hidden="true">
+          <path d="M6 24h52l-3.5-16-11.5 9.5L32 3 21 17.5 9.5 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <line x1="6" y1="27" x2="58" y2="27" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <p class="footer__brand"><span id="footerStoreName">LUXORA</span> <small>PERFUMES &amp; MODA</small></p>
+        <p class="footer__slogan" id="slogan"></p>
+      </div>
+
+      <div class="footer__links-col">
+        <p class="footer__col-title">Departamentos</p>
+        <button type="button" class="footer__filter-link" data-dept-trigger="perfumes">Catálogo de Perfumes</button>
+        <button type="button" class="footer__filter-link" data-dept-trigger="apparel">Catálogo de Ropa &amp; Calzado</button>
+        <a href="Luxora_Perfumes_Catalogo_Completo.pdf" target="_blank" rel="noopener">Descargar Catálogo PDF</a>
+        <a href="admin.html">Acceso Administrador</a>
+      </div>
+
+      <div class="footer__links-col">
+        <p class="footer__col-title">Marcas Más Buscadas</p>
+        <button type="button" class="footer__filter-link" data-quick-brand="Dior">Perfumes Dior</button>
+        <button type="button" class="footer__filter-link" data-quick-brand="Chanel">Perfumes Chanel</button>
+        <button type="button" class="footer__filter-link" data-quick-brand="YSL">Perfumes YSL</button>
+        <button type="button" class="footer__filter-link" data-quick-brand="Valentino">Perfumes Valentino</button>
+        <button type="button" class="footer__filter-link" data-quick-brand="Creed">Perfumes Creed</button>
+        <button type="button" class="footer__filter-link" data-quick-brand="Parfums de Marly">Parfums de Marly</button>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">&copy; <span id="year"></span> Luxora &middot; Todos los derechos reservados.</p>
+        <p class="footer__city" id="footerCity"></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== BARRA FLOTANTE DE BOLSA DE PEDIDO (SOBRE LA BARRA MÓVIL) ===== -->
+  <div class="selection-bar" id="selectionBar" hidden>
+    <div class="selection-bar__inner">
+      <div class="selection-bar__info" id="selectionBarInfo">
+        <span class="selection-bar__badge" id="barCount">0</span>
+        <div>
+          <strong id="barTitle">Productos en tu Bolsa</strong>
+          <span class="selection-bar__sub" id="barSubtotal">Toca para revisar tu pedido</span>
+        </div>
+      </div>
+      <div class="selection-bar__thumbs" id="barThumbs"></div>
+      <div class="selection-bar__actions">
+        <button type="button" class="btn btn--ghost-light btn--sm-pad" id="barOpenDrawerBtn">
+          Ver Bolsa
+        </button>
+        <a class="btn btn--wa-solid btn--sm-pad" id="barWaBtn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-wa"/></svg>
+          <span>Pedir por WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== BARRA DE NAVEGACIÓN INFERIOR TIPO APP NATIVA (MOBILE PWA) ===== -->
+  <nav class="mobile-bottom-nav" aria-label="Navegación móvil de la app">
+    <button type="button" class="mob-nav-item is-active" data-mob-nav="perfumes">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 6h4v2l4 3v9a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-9l4-3V6z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      <span>Perfumes</span>
+    </button>
+    <button type="button" class="mob-nav-item" data-mob-nav="apparel">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4l4 2 4-2 5 4-3 4-2-1v9H8v-9l-2 1-3-4 5-4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <span>Ropa</span>
+    </button>
+    <button type="button" class="mob-nav-item" data-mob-nav="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-4.2-4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span>Buscar</span>
+    </button>
+    <button type="button" class="mob-nav-item" data-mob-nav="bag">
+      <div class="mob-nav-bag-wrap">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l1 13H5L6 7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span class="mob-bag-badge" id="mobBagCount" hidden>0</span>
+      </div>
+      <span>Mi Bolsa</span>
+    </button>
+    <a href="admin.html" class="mob-nav-item">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+      <span>Admin</span>
+    </a>
+  </nav>
+
+  <!-- ===== DRAWER LATERAL: "MI BOLSA DE PEDIDO" ===== -->
+  <div class="drawer" id="trayDrawer" hidden>
+    <div class="drawer__backdrop" data-close-tray></div>
+    <aside class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+      <div class="drawer__header">
+        <div>
+          <p class="drawer__eyebrow">TU PEDIDO EN LÍNEA</p>
+          <h2 class="drawer__title" id="drawerTitle">Mi Bolsa de Pedido</h2>
+        </div>
+        <button type="button" class="drawer__close" data-close-tray aria-label="Cerrar bolsa">&times;</button>
+      </div>
+
+      <div class="drawer__body" id="trayList"></div>
+
+      <div class="drawer__footer" id="trayFooter">
+        <!-- Resumen de subtotal si hay productos con precio -->
+        <div class="drawer__summary" id="traySummary" hidden>
+          <span>Subtotal estimado:</span>
+          <strong id="traySubtotalVal">$0 MXN</strong>
+        </div>
+
+        <div class="drawer__prefs">
+          <p class="drawer__prefs-label">Opciones adicionales para tu pedido:</p>
+          <div class="pref-chips" id="prefChips">
+            <button type="button" class="pref-chip" data-pref="Busco presentación de 100 ml">Perfume de 100 ml</button>
+            <button type="button" class="pref-chip" data-pref="Es para regalo">Empaque para regalo</button>
+            <button type="button" class="pref-chip" data-pref="Con envío a domicilio">Envío a domicilio</button>
+          </div>
+        </div>
+
+        <a class="btn btn--wa-solid btn--block" id="trayWaBtn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-wa"/></svg>
+          <span id="trayWaText">Enviar Pedido por WhatsApp</span>
+        </a>
+        <div class="drawer__sub-actions">
+          <button type="button" class="drawer__clear-btn" id="clearTrayBtn">Vaciar bolsa</button>
+          <span class="drawer__hint">Te confirmaremos existencias y total al instante.</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===== MODAL DETALLE DEL PRODUCTO ===== -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <button type="button" class="modal__close" data-close aria-label="Cerrar ventana">&times;</button>
+
+      <!-- Columna Izquierda: Foto de Estudio + Navegación -->
+      <div class="modal__stage">
+        <div class="modal__badges">
+          <span class="modal__tier-badge" id="mTier"></span>
+          <span class="modal__gender-badge" id="mTag"></span>
+          <span class="modal__status-badge" id="mStatusBadge"></span>
+        </div>
+        <div class="modal__media" id="mMedia"></div>
+        <div class="modal__nav">
+          <button type="button" class="modal__nav-btn" id="mPrev" aria-label="Producto anterior">
+            &larr; <span>Anterior</span>
+          </button>
+          <span class="modal__index" id="mIndex"></span>
+          <button type="button" class="modal__nav-btn" id="mNext" aria-label="Siguiente producto">
+            <span>Siguiente</span> &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Información Comercial, Precio, Descripción y Botones -->
+      <div class="modal__body">
+        <div class="modal__header-meta">
+          <button type="button" class="modal__brand-link" id="mBrand" title="Ver todos los productos de esta marca"></button>
+          <span class="modal__conc" id="mConc"></span>
+        </div>
+
+        <h2 class="modal__title" id="mTitle"></h2>
+
+        <!-- Bloque de Precio y Tipo de Aroma -->
+        <div class="modal__price-row">
+          <div class="modal__price-box" id="mPriceBox"></div>
+          <span class="modal__family" id="mFamily"></span>
+        </div>
+
+        <!-- Descripción Comercial Clara para el Cliente -->
+        <div class="modal__desc-box">
+          <p class="modal__description" id="mDescription"></p>
+        </div>
+
+        <!-- Selectores de Talla y Color (Solo para Ropa / Calzado) -->
+        <div class="modal__apparel-selectors" id="mApparelSelectors" hidden>
+          <div class="selector-block">
+            <div class="selector-block__head">
+              <span class="modal__label">1. Elige el Color:</span>
+              <strong class="selector-block__val" id="mSelectedColorName"></strong>
+            </div>
+            <div class="color-swatches" id="mColorSwatches" role="radiogroup" aria-label="Elegir color"></div>
+          </div>
+
+          <div class="selector-block">
+            <div class="selector-block__head">
+              <span class="modal__label">2. Elige tu Talla:</span>
+              <span class="selector-block__fit" id="mFitLabel"></span>
+            </div>
+            <div class="size-pills" id="mSizePills" role="radiogroup" aria-label="Elegir talla"></div>
+          </div>
+        </div>
+
+        <!-- Notas del Perfume o Materiales de la Prenda -->
+        <div class="modal__section">
+          <h3 class="modal__label" id="mNotesHeading">Qué notas contiene este perfume:</h3>
+          <ul class="notes-list" id="mNotes"></ul>
+        </div>
+
+        <!-- Resumen rápido de características -->
+        <div class="modal__profile" id="mProfile"></div>
+
+        <!-- Botones de Compra -->
+        <div class="modal__actions">
+          <button type="button" class="btn btn--primary btn--block" id="mTrayBtn">
+            <span id="mTrayBtnText">+ Agregar a Mi Bolsa de Pedido</span>
+          </button>
+          <a class="btn btn--wa-solid btn--block" id="mWa" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-wa"/></svg>
+            <span id="mWaText">Pedir Ahora por WhatsApp</span>
+          </a>
+        </div>
+        <p class="modal__hint">Respuesta inmediata por WhatsApp &middot; Producto garantizado.</p>
+
+        <!-- Productos Similares -->
+        <div class="modal__related" id="mRelatedWrap">
+          <h3 class="modal__label" id="mRelatedHeading">También te pueden gustar:</h3>
+          <div class="related-grid" id="mRelated"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notificación Toast al agregar a la bolsa -->
+  <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+
+  <!-- Icono SVG WhatsApp -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ico-wa" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.32l-.34-.2-3.57.94.95-3.48-.22-.36a9.4 9.4 0 0 1-1.44-5.02c0-5.2 4.24-9.44 9.44-9.44 2.52 0 4.89.98 6.67 2.77a9.37 9.37 0 0 1 2.76 6.68c0 5.2-4.24 9.43-9.44 9.43zm8.03-17.46A11.27 11.27 0 0 0 12.05.72C5.8.72.7 5.8.7 12.06c0 2 .52 3.95 1.52 5.67L.6 23.6l6.02-1.58a11.33 11.33 0 0 0 5.42 1.38h.01c6.25 0 11.34-5.09 11.34-11.34 0-3.03-1.18-5.88-3.32-8.02z"/>
+    </symbol>
+  </svg>
+
+  <script src="js/config.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/firebase-db.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "LUXORA · Perfumes & Moda",
+  "short_name": "LUXORA",
+  "description": "Tienda de perfumes originales de diseñador, nicho y moda exclusiva. Pide directo por WhatsApp.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f7f5f0",
+  "theme_color": "#121110",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='36' fill='%23121110'/%3E%3Cpath d='M36 112h120l-9-42-27 23L96 52 72 93 45 70z' fill='none' stroke='%23c8a45e' stroke-width='6' stroke-linejoin='round'/%3E%3Ctext x='96' y='152' text-anchor='middle' fill='%23ffffff' font-family='Georgia,serif' font-size='26' font-weight='bold' letter-spacing='6'%3ELUXORA%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='96' fill='%23121110'/%3E%3Cpath d='M96 298h320l-24-112-72 61-64-109-64 109-72-61z' fill='none' stroke='%23c8a45e' stroke-width='14' stroke-linejoin='round'/%3E%3Ctext x='256' y='405' text-anchor='middle' fill='%23ffffff' font-family='Georgia,serif' font-size='68' font-weight='bold' letter-spacing='16'%3ELUXORA%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
