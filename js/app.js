@@ -258,24 +258,29 @@
       </div>`;
   }
 
-  // ---------- Showcase de Más Vendidos en el Hero ----------
+  // ---------- Showcase de Más Vendidos en el Hero (100% Dinámico desde Firebase) ----------
   function renderHeroShowcase() {
     const container = $("#heroShowcase");
     if (!container) return;
 
-    let picks = [];
-    if (state.dept === "perfumes") {
-      const targetNames = ["Baccarat Rouge 540", "Sauvage", "Aventus", "Delina Exclusif"];
-      picks = targetNames
-        .map((n) => PERFUMES_LIST.find((p) => p.name === n))
-        .filter(Boolean);
-      if (picks.length < 4) {
-        const extras = PERFUMES_LIST.filter((p) => !picks.includes(p));
-        picks = [...picks, ...extras].slice(0, 4);
-      }
-    } else {
-      picks = APPAREL_LIST.slice(0, 4);
+    const source = state.dept === "perfumes" ? PERFUMES_LIST : APPAREL_LIST;
+    if (!source.length) {
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; padding: 2rem 1.25rem; text-align: center; color: var(--muted); border: 1px dashed var(--border); border-radius: 10px;">
+          ${
+            !LuxoraDB.isLoaded()
+              ? "Sincronizando productos en tiempo real desde Firebase…"
+              : "Aún no hay productos publicados en este departamento."
+          }
+        </div>`;
+      return;
     }
+
+    const featured = source.filter(
+      (p) => p.badge === "bestseller" || p.badge === "new" || p.badge === "promo"
+    );
+    const others = source.filter((p) => !featured.includes(p));
+    const picks = [...featured, ...others].slice(0, 4);
 
     container.innerHTML = picks
       .map((item) => {
@@ -296,6 +301,30 @@
           </div>
         </article>`;
       })
+      .join("");
+  }
+
+  function renderFooterBrands() {
+    const box = $("#footerDynamicBrands");
+    if (!box) return;
+    const counts = {};
+    ALL_ITEMS.forEach((p) => {
+      if (p.brand) counts[p.brand] = (counts[p.brand] || 0) + 1;
+    });
+    const topBrands = Object.keys(counts)
+      .sort((a, b) => counts[b] - counts[a] || a.localeCompare(b))
+      .slice(0, 6);
+
+    if (!topBrands.length) {
+      box.innerHTML = `<span style="font-size:0.8rem;color:var(--muted)">Catálogo en línea</span>`;
+      return;
+    }
+
+    box.innerHTML = topBrands
+      .map(
+        (b) =>
+          `<button type="button" class="footer__filter-link" data-quick-brand="${b}">${b}</button>`
+      )
       .join("");
   }
 
@@ -1427,6 +1456,7 @@
     updateCompassCounts();
     renderHeroShowcase();
     renderHorizontalRail();
+    renderFooterBrands();
     updateTrayUI();
     renderCatalog();
   }

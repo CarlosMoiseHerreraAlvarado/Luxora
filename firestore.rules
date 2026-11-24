@@ -1,0 +1,177 @@
+rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// This security rules file assumes the following data structures:
+//
+// Collection: products
+// Document ID: {productId} (e.g. "perf-0", "app-0", "prod-1732...")
+// Fields:
+//   - id: string (optional, max 200 chars) - unique product identifier
+//   - uid: string (optional, max 200 chars) - legacy/mirror unique identifier
+//   - dept: string (required, enum: ['perfumes', 'apparel']) - store department
+//   - name: string (required, 1..300 chars) - commercial product name
+//   - brand: string (required, 1..200 chars) - product brand or designer house
+//   - notes: string (optional, max 2000 chars) - fragrance notes or fabric materials
+//   - description: string (optional, max 5000 chars) - customer-facing description
+//   - g: string (optional, max 20 chars) - gender target ('h', 'm', 'u')
+//   - tier: string (optional, max 50 chars) - perfume tier ('designer', 'niche')
+//   - cat: string (optional, max 50 chars) - olfactory category
+//   - family: string (optional, max 200 chars) - display family label
+//   - conc: string (optional, max 100 chars) - fragrance concentration
+//   - sizeMl: string (optional, max 100 chars) - bottle presentation size
+//   - line: string (optional, max 100 chars) - apparel line ('formal', 'streetwear')
+//   - subcat: string (optional, max 100 chars) - apparel subcategory
+//   - fit: string (optional, max 150 chars) - garment fit description
+//   - silhouette: string (optional, max 100 chars) - garment silhouette key
+//   - sizes: list (optional, max 50 items) - available garment/shoe sizes
+//   - colors: list (optional, max 50 items) - available color objects ({ name, hex })
+//   - img: string (optional, max 900000 chars) - relative image path, URL, or compressed data URL
+//   - price: number | null (optional, >= 0) - current price in MXN or null for quote
+//   - oldPrice: number | null (optional, >= 0) - previous price in MXN or null
+//   - status: string (optional, max 50 chars) - availability ('available', 'out_of_stock', 'hidden')
+//   - badge: string (optional, max 50 chars) - highlight badge ('', 'bestseller', 'new', 'promo')
+//   - order: number (optional) - catalog display sort order
+//   - updatedAt: number (optional) - epoch timestamp in ms
+//
+// Collection: settings
+// Document ID: store
+// Fields:
+//   - storeName: string (required, 1..200 chars) - storefront display name
+//   - whatsapp: string (optional, max 50 chars) - WhatsApp sales phone number
+//   - storeTagline: string (optional, max 500 chars) - storefront subtitle/tagline
+//   - announcement: string (optional, max 1000 chars) - top announcement bar text
+//   - adminPin: string (optional, max 100 chars) - quick access PIN for local admin panel
+//   - city: string (optional, max 500 chars) - shipping/location summary
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    // Check if the user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if user owns the resource (for user-owned documents)
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Verify UID hasn't been tampered with on create
+    function uidUnchanged() {
+      return !('uid' in request.resource.data) ||
+        request.resource.data.uid == request.auth.uid;
+    }
+
+    // Ensure uid field is not modified on update
+    function uidNotModified() {
+      return !('uid' in request.resource.data) ||
+        request.resource.data.uid == resource.data.uid;
+    }
+
+    // Validate required fields exist
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // Validate string length
+    function validStringLength(field, minLen, maxLen) {
+      return request.resource.data[field] is string &&
+        request.resource.data[field].size() >= minLen &&
+        request.resource.data[field].size() <= maxLen;
+    }
+
+    // Validate optional string (if present and non-null, must be string within length bounds)
+    function isValidOptionalString(field, minLen, maxLen) {
+      return !(field in request.resource.data) ||
+        request.resource.data[field] == null ||
+        (request.resource.data[field] is string &&
+         request.resource.data[field].size() >= minLen &&
+         request.resource.data[field].size() <= maxLen);
+    }
+
+    // Validate that a list is a list and enforces size limits
+    function isValidList(listVal, maxSize) {
+      return listVal is list && listVal.size() <= maxSize;
+    }
+
+    // ===============================================================
+    // Domain Validators (Used in BOTH create and update)
+    // ===============================================================
+
+    function isValidProduct(data) {
+      return hasRequiredFields(['name', 'brand', 'dept']) &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 300 &&
+        data.brand is string && data.brand.size() > 0 && data.brand.size() <= 200 &&
+        data.dept in ['perfumes', 'apparel'] &&
+        isValidOptionalString('id', 0, 200) &&
+        isValidOptionalString('uid', 0, 200) &&
+        isValidOptionalString('notes', 0, 2000) &&
+        isValidOptionalString('description', 0, 5000) &&
+        isValidOptionalString('g', 0, 20) &&
+        isValidOptionalString('tier', 0, 50) &&
+        isValidOptionalString('cat', 0, 50) &&
+        isValidOptionalString('family', 0, 200) &&
+        isValidOptionalString('conc', 0, 100) &&
+        isValidOptionalString('sizeMl', 0, 100) &&
+        isValidOptionalString('line', 0, 100) &&
+        isValidOptionalString('subcat', 0, 100) &&
+        isValidOptionalString('fit', 0, 150) &&
+        isValidOptionalString('silhouette', 0, 100) &&
+        isValidOptionalString('status', 0, 50) &&
+        isValidOptionalString('badge', 0, 50) &&
+        isValidOptionalString('img', 0, 900000) &&
+        (!('price' in data) || data.price == null || (data.price is number && data.price >= 0)) &&
+        (!('oldPrice' in data) || data.oldPrice == null || (data.oldPrice is number && data.oldPrice >= 0)) &&
+        (!('order' in data) || data.order == null || data.order is number) &&
+        (!('updatedAt' in data) || data.updatedAt == null || data.updatedAt is number) &&
+        (!('sizes' in data) || isValidList(data.sizes, 50)) &&
+        (!('colors' in data) || isValidList(data.colors, 50));
+    }
+
+    function isValidStoreSettings(settingId, data) {
+      return settingId == 'store' &&
+        data.storeName is string &&
+        data.storeName.size() > 0 &&
+        data.storeName.size() <= 200 &&
+        isValidOptionalString('whatsapp', 0, 50) &&
+        isValidOptionalString('storeTagline', 0, 500) &&
+        isValidOptionalString('announcement', 0, 1000) &&
+        isValidOptionalString('adminPin', 0, 100) &&
+        isValidOptionalString('city', 0, 500);
+    }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
+
+    // 1. Products catalog (`products/{productId}`)
+    // Public read access for storefront customers; schema-validated write/delete for standalone Admin App.
+    match /products/{productId} {
+      allow get, list: if true;
+      allow create, update: if isValidProduct(request.resource.data);
+      allow delete: if true;
+    }
+
+    // 2. Store settings (`settings/{settingId}`)
+    // Public read access for storefront configuration; schema-validated write on `settings/store`.
+    match /settings/{settingId} {
+      allow get, list: if true;
+      allow create, update: if isValidStoreSettings(settingId, request.resource.data);
+      allow delete: if false;
+    }
+
+    // 3. Default deny for all other collections and documents
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,31 +1,23 @@
 /* ============================================================
-   CONFIGURACIÓN GENERAL DE LA TIENDA LUXORA & FIREBASE
+   CONFIGURACIÓN PÚBLICA DE LA TIENDA LUXORA (SOLO LECTURA)
+   Conectada a Firebase Firestore (Plan Gratuito Spark - $0 costo)
    ============================================================ */
 const CONFIG = {
-  // Número de WhatsApp de ventas (código de país + número, sin espacios ni símbolos)
+  // Número de WhatsApp por defecto (se actualiza dinámicamente desde Firebase settings/store)
   whatsapp: "520000000000",
 
   storeName: "LUXORA",
   storeTagline: "Perfumería Original & Moda Exclusiva",
   city: "Envíos seguros a todo el país · Atención personalizada",
 
-  // PIN de acceso rápido al Panel de Administrador (puedes cambiarlo)
-  adminPin: "1234",
-
-  // ============================================================
-  // CREDENCIALES DE FIREBASE (FIRESTORE DATABASE)
-  // Pega aquí los datos de tu proyecto de Firebase Console
-  // (Configuración del proyecto -> Tus apps -> Web App).
-  // Mientras apiKey esté vacío, la tienda y el Panel Admin funcionan
-  // automáticamente con la Base de Datos Local persistente.
-  // ============================================================
+  // Credenciales oficiales del proyecto Firebase (Plan Spark Gratuito)
   firebaseConfig: {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: ""
+    apiKey: "AIzaSyBoCYCajWDkTT2xbE7RkbsJTV4YzsKqrtA",
+    authDomain: "luxora-perfumes-store.firebaseapp.com",
+    projectId: "luxora-perfumes-store",
+    storageBucket: "luxora-perfumes-store.firebasestorage.app",
+    messagingSenderId: "112729514188",
+    appId: "1:112729514188:web:ca6ded7db92cc48c112269"
   },
 
   // Mensaje al pedir un PERFUME por WhatsApp
@@ -44,5 +36,5 @@ const CONFIG = {
 
   // Mensaje para hablar con un vendedor
   consultMessage:
-    "Hola, necesito ayuda para elegir un perfume o prenda en la tienda LUXORA.",
+    "Hola, necesito ayuda para elegir un perfume o prenda en la tienda LUXORA."
 };

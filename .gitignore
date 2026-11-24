@@ -15,3 +15,7 @@ pnpm-debug.log*
 .vscode/
 .idea/
 .gemini/
+
+# Standalone Admin App (separate repository)
+admin-app/
+

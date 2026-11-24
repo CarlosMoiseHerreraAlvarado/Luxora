@@ -29,9 +29,6 @@
         <button type="button" class="topbar__install" id="installPwaBtn" hidden>
           &#11015; Instalar App
         </button>
-        <a href="admin.html" class="topbar__admin-link" title="Abrir Panel de Administrador">
-          Panel Admin
-        </a>
       </div>
     </div>
   </div>
@@ -55,11 +52,11 @@
       <div class="dept-tabs" id="headerDeptSwitcher" role="tablist" aria-label="Departamentos de la tienda">
         <button type="button" class="dept-tab is-active" data-dept="perfumes">
           <span>Perfumes</span>
-          <span class="dept-tab__badge" id="navPerfumeCount">95</span>
+          <span class="dept-tab__badge" id="navPerfumeCount">0</span>
         </button>
         <button type="button" class="dept-tab" data-dept="apparel">
           <span>Ropa &amp; Calzado</span>
-          <span class="dept-tab__badge" id="navApparelCount">12</span>
+          <span class="dept-tab__badge" id="navApparelCount">0</span>
         </button>
       </div>
 
@@ -114,7 +111,7 @@
         </h1>
 
         <p class="hero__lead" id="heroLead">
-          Explora más de <strong>95 perfumes originales</strong> de las mejores marcas del mundo (<em>Dior, Chanel, YSL, Creed, Parfums de Marly, Valentino, Tom Ford, Jean Paul Gaultier</em> y más), además de nuestra línea de <strong>Ropa Formal y Streetwear</strong>.
+          Explora nuestra selección curada de <strong>perfumes originales</strong> de diseñador y alta perfumería nicho, además de nuestra línea exclusiva de <strong>Ropa Formal y Streetwear</strong>.
         </p>
 
         <!-- Cómo comprar en 3 pasos sencillos -->
@@ -404,7 +401,7 @@
             <span class="feature-item__num">01</span>
             <div>
               <h3>Perfumes 100% Originales</h3>
-              <p>Las 24 marcas más buscadas: Dior, Chanel, YSL, Creed, Parfums de Marly, Tom Ford, Valentino, Armani, Jean Paul Gaultier, Versace, Paco Rabanne y más.</p>
+              <p>Fragancias selectas de diseñador y alta perfumería nicho con garantía de autenticidad.</p>
             </div>
           </div>
           <div class="feature-item">
@@ -442,18 +439,11 @@
         <p class="footer__col-title">Departamentos</p>
         <button type="button" class="footer__filter-link" data-dept-trigger="perfumes">Catálogo de Perfumes</button>
         <button type="button" class="footer__filter-link" data-dept-trigger="apparel">Catálogo de Ropa &amp; Calzado</button>
-        <a href="Luxora_Perfumes_Catalogo_Completo.pdf" target="_blank" rel="noopener">Descargar Catálogo PDF</a>
-        <a href="admin.html">Acceso Administrador</a>
       </div>
 
       <div class="footer__links-col">
-        <p class="footer__col-title">Marcas Más Buscadas</p>
-        <button type="button" class="footer__filter-link" data-quick-brand="Dior">Perfumes Dior</button>
-        <button type="button" class="footer__filter-link" data-quick-brand="Chanel">Perfumes Chanel</button>
-        <button type="button" class="footer__filter-link" data-quick-brand="YSL">Perfumes YSL</button>
-        <button type="button" class="footer__filter-link" data-quick-brand="Valentino">Perfumes Valentino</button>
-        <button type="button" class="footer__filter-link" data-quick-brand="Creed">Perfumes Creed</button>
-        <button type="button" class="footer__filter-link" data-quick-brand="Parfums de Marly">Parfums de Marly</button>
+        <p class="footer__col-title">Marcas en Catálogo</p>
+        <div id="footerDynamicBrands" style="display:flex;flex-direction:column;gap:0.35rem;align-items:flex-start"></div>
       </div>
 
       <div class="footer__bottom">
@@ -507,10 +497,6 @@
       </div>
       <span>Mi Bolsa</span>
     </button>
-    <a href="admin.html" class="mob-nav-item">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-      <span>Admin</span>
-    </a>
   </nav>
 
   <!-- ===== DRAWER LATERAL: "MI BOLSA DE PEDIDO" ===== -->
@@ -660,7 +646,6 @@
   </svg>
 
   <script src="js/config.js"></script>
-  <script src="js/products.js"></script>
   <script src="js/firebase-db.js"></script>
   <script src="js/app.js"></script>
 </body>

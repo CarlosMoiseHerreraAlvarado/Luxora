@@ -1,15 +1,12 @@
-const CACHE_NAME = "luxora-pwa-v3";
+const CACHE_NAME = "luxora-pwa-v4";
 const CORE_ASSETS = [
   "./",
   "./index.html",
-  "./admin.html",
   "./manifest.json",
   "./css/styles.css",
   "./js/config.js",
-  "./js/products.js",
   "./js/firebase-db.js",
-  "./js/app.js",
-  "./js/admin.js"
+  "./js/app.js"
 ];
 
 self.addEventListener("install", (event) => {
