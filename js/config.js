@@ -3,12 +3,12 @@
    Conectada a Firebase Firestore (Plan Gratuito Spark - $0 costo)
    ============================================================ */
 const CONFIG = {
-  // Número de WhatsApp por defecto (se actualiza dinámicamente desde Firebase settings/store)
-  whatsapp: "520000000000",
+  // Número de WhatsApp de ventas: +1 (571) 580-9800 (formato wa.me sin símbolos)
+  whatsapp: "15715809800",
 
   storeName: "LUXORA",
   storeTagline: "Perfumería Original & Moda Exclusiva",
-  city: "Envíos seguros a todo el país · Atención personalizada",
+  city: "Envíos seguros · Atención personalizada",
 
   // Credenciales oficiales del proyecto Firebase (Plan Spark Gratuito)
   firebaseConfig: {

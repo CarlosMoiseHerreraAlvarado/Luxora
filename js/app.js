@@ -167,10 +167,14 @@
     renderCatalog();
   }
 
-  // ---------- Enlaces de WhatsApp ----------
+  // ---------- Enlaces de WhatsApp (+1 571 580-9800) ----------
   function getWhatsappNumber() {
     const s = LuxoraDB.getStoreSettings();
-    return (s.whatsapp || CONFIG.whatsapp || "520000000000").replace(/\D/g, "");
+    const raw = (s.whatsapp || CONFIG.whatsapp || "15715809800").replace(/\D/g, "");
+    if (!raw || raw === "520000000000") return "15715809800";
+    // Si ingresaron los 10 dígitos de USA (5715809800) sin el código de país 1, anteponer 1
+    if (raw.length === 10 && raw.startsWith("571")) return "1" + raw;
+    return raw;
   }
 
   const waLink = (text) =>

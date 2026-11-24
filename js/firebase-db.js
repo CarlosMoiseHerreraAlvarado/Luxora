@@ -72,7 +72,7 @@
 
   function getDefaultSettings() {
     return {
-      whatsapp: (typeof CONFIG !== "undefined" && CONFIG.whatsapp) || "520000000000",
+      whatsapp: (typeof CONFIG !== "undefined" && CONFIG.whatsapp) || "15715809800",
       storeName: (typeof CONFIG !== "undefined" && CONFIG.storeName) || "LUXORA",
       storeTagline:
         (typeof CONFIG !== "undefined" && CONFIG.storeTagline) ||
@@ -81,7 +81,7 @@
         "Perfumes 100% Originales · Ropa Formal & Streetwear · Pide directo por WhatsApp",
       city:
         (typeof CONFIG !== "undefined" && CONFIG.city) ||
-        "Envíos seguros a todo el país · Atención personalizada"
+        "Envíos seguros · Atención personalizada"
     };
   }
 
